@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css" />
+    <script>
+      console.log(1);
+    </script>
+  </head>
+  <body>
+    <div class="fundal">
+      <p id="output">0</p>
+      <br />
+      <br />
+      <div class="buton">
+        <button onclick="addNumber('1')">1</button>
+        <button onclick="addNumber('2')">2</button>
+        <button onclick="addNumber('3')">3</button>
+        <button onclick="addOperator('+')">+</button>
+        <br />
+        <button onclick="addNumber('4')">4</button>
+        <button onclick="addNumber('5')">5</button>
+        <button onclick="addNumber('6')">6</button>
+        <button onclick="addOperator('-')">-</button>
+        <br />
+        <button onclick="addNumber('7')">7</button>
+        <button onclick="addNumber('8')">8</button>
+        <button onclick="addNumber('9')">9</button>
+        <button onclick="addOperator('*')">*</button>
+        <br />
+        <button onclick="addNumber('.')">.</button>
+        <button onclick="addNumber('0')">0</button>
+        <button onclick="calculate()">=</button>
+        <button onclick="addOperator('/')">/</button>
+        <br />
+        <button onclick="clearScreen()">C</button>
+      </div>
+    </div>
+    <script>
+      let numar1 = "";
+      let numar2 = "";
+      let operator = null;
+      const outputEl = document.querySelector("#output");
+      function addNumber(n) {
+        if (operator === null) {
+          if ((n === "." && !numar1.includes(".")) || n !== ".") {
+            numar1 = `${numar1}${n}`;
+            outputEl.innerText = numar1;
+          }
+        } else {
+          if ((n === "." && !numar2.includes(".")) || n !== ".") {
+            numar2 = `${numar2}${n}`;
+            outputEl.innerText = `${numar1} ${operator} ${numar2}`;
+          }
+        }
+      }
+      const calculate = () => {
+        if (numar1 !== "" && numar2 !== "" && operator !== null) {
+          let rezultat;
+          if (operator === "+") {
+            rezultat = Number(numar1) + Number(numar2);
+          } else if (operator === "-") {
+            rezultat = Number(numar1) - Number(numar2);
+          } else if (operator === "*") {
+            rezultat = Number(numar1) * Number(numar2);
+          } else if (operator === "/") {
+            rezultat = Number(numar1) / Number(numar2);
+          }
+          numar1 = `${rezultat}`;
+          numar2 = "";
+          operator = null;
+          outputEl.innerText = rezultat;
+        }
+      };
+      const addOperator = (o) => {
+        if (numar1 !== "" && numar2 !== "" && operator !== null) {
+          calculate();
+        }
+        operator = o;
+        outputEl.innerText = `${numar1} ${operator}`;
+      };
+      const clearScreen = () => {
+        numar1 = "";
+        numar2 = "";
+        operator = null;
+        outputEl.innerText = 0;
+      };
+      document.addEventListener("keyup", (e) => {
+        switch (e.key) {
+          case "1":
+          case "2":
+          case "3":
+          case "4":
+          case "5":
+          case "6":
+          case "7":
+          case "8":
+          case "9":
+          case "0":
+          case ".":
+            {
+              addNumber(e.key);
+            }
+            break;
+          case "/":
+          case "+":
+          case "-":
+          case "*":
+            {
+              addOperator(e.key);
+            }
+            break;
+          case "Enter":
+          case "=":
+            {
+              calculate();
+            }
+            break;
+        }
+      });
+    </script>
+  </body>
+</html>
